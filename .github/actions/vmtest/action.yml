@@ -78,7 +78,7 @@ runs:
         kernel: ${{ inputs.kernel }}
     # 4. prepare rootfs
     - name: prepare rootfs
-      uses: libbpf/ci/prepare-rootfs@main
+      uses: dubeyabhishek/ci/prepare-rootfs@main
       env:
         KBUILD_OUTPUT: '.kernel'
       with:
