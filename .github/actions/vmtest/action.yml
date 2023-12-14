@@ -67,7 +67,7 @@ runs:
     # else, just download prebuilt kernel image
     - name: Download prebuilt kernel
       if: ${{ inputs.kernel != 'LATEST' }}
-      uses: libbpf/ci/download-vmlinux@main
+      uses: dubeyabhishek/ci/download-vmlinux@main
       with:
         kernel: ${{ inputs.kernel }}
         arch: ${{ inputs.arch }}
@@ -94,7 +94,7 @@ runs:
       env:
         KERNEL: ${{ inputs.kernel }}
         REPO_ROOT: ${{ github.workspace }}
-      uses: libbpf/ci/run-qemu@main
+      uses: dubeyabhishek/ci/run-qemu@main
       with:
         arch: ${{ inputs.arch }}
         img: '/tmp/root.img'
