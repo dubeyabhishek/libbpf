@@ -61,6 +61,8 @@ runs:
         foldable start "Build Kernel Image"
         cd .kernel
         make -j $((4*$(nproc))) all > /dev/null
+        echo "maggi ==> "
+        file vmlinux
         cp vmlinux ${{ github.workspace }}
         cd -
         foldable end
