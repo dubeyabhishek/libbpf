@@ -40,8 +40,13 @@ else
 fi
 
 cd ${REPO_ROOT}/${REPO_PATH}
-make headers
+#make headers
+make ARCH=powerpc \
+     CROSS_COMPILE=powerpc64le-linux-gnu- \
+     headers_install
 make \
+	ARCH=powerpc \
+	CROSS_COMPILE=powerpc64le-linux-gnu- \
 	CLANG=clang-${LLVM_VERSION} \
 	LLC=llc-${LLVM_VERSION} \
 	LLVM_STRIP=llvm-strip-${LLVM_VERSION} \

@@ -18,7 +18,7 @@ runs:
   steps:
     # setup environment
     - name: Setup environment
-      uses: libbpf/ci/setup-build-env@main
+      uses: dubeyabhishek/ci/setup-build-env@main
       with:
         pahole: ${{ inputs.pahole }}
     # 1. download CHECKPOINT kernel source
@@ -44,12 +44,13 @@ runs:
         source $GITHUB_ACTION_PATH/../../../ci/vmtest/helpers.sh
         foldable start "Prepare building selftest"
         cd .kernel
-        cat tools/testing/selftests/bpf/config \
-            tools/testing/selftests/bpf/config.s390x > .config
+        #cat tools/testing/selftests/bpf/config \
+        #    tools/testing/selftests/bpf/config.s390x > .config
         # this file might or mihgt not exist depending on kernel version
-        cat tools/testing/selftests/bpf/config.vm >> .config || :
-        echo "CONFIG_SMP=y" >> .config
-        make olddefconfig && make prepare
+        #cat tools/testing/selftests/bpf/config.vm >> .config || :
+        #echo "CONFIG_SMP=y" >> .config
+        make ARCH=powerpc ppc64le_defconfig
+        #make olddefconfig && make prepare
         cd -
         foldable end
     # 2. if kernel == LATEST, build kernel image from tree
@@ -60,7 +61,8 @@ runs:
         source $GITHUB_ACTION_PATH/../../../ci/vmtest/helpers.sh
         foldable start "Build Kernel Image"
         cd .kernel
-        make -j $((4*$(nproc))) all > /dev/null
+        #ARCH=${{ inputs.arch }} make -j $((4*$(nproc))) all > /dev/null
+        ARCH=powerpc CROSS_COMPILE=powerpc64le-linux-gnu- make -j32
         echo "maggi ==> "
         file vmlinux
         cp vmlinux ${{ github.workspace }}
